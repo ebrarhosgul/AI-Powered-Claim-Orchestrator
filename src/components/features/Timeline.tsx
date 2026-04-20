@@ -9,11 +9,10 @@ export function Timeline() {
     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 relative">
       <div className="md:col-span-8 flex flex-col pt-2 relative">
         <div className="absolute left-6 top-8 bottom-8 w-px bg-border -z-10" />
-        {timelineNodes.length > 0 && <InsertNodeButton index={0} />}
         {timelineNodes.map((node, index) => (
           <div key={node.id} className="relative z-0">
             <TimelineNodeRenderer node={node} />
-            <InsertNodeButton index={index + 1} />
+            {node.title !== "Information Note" && <InsertNodeButton index={index + 1} />}
           </div>
         ))}
       </div>
