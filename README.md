@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI-Powered Claim Orchestrator
 
-## Getting Started
+## Architectural Overview & Design Decisions
 
-First, run the development server:
+Given the strict 2-hour constraint and the high complexity of the heterogeneous `processDetails` array, my primary focus was establishing a bulletproof, scalable architecture rather than just a cosmetic facade.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Polymorphic UI via Component Registry (O(1) Complexity):** The most critical architectural decision was avoiding unmaintainable `if/else` or `switch/case` clusters to render the timeline nodes. I implemented a strict Component Registry Pattern. The `TimelineNodeRenderer` dynamically resolves the correct React component based on the node's identifier with O(1) lookup time. Adding a new claim step type in the future requires zero changes to the core rendering engine.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Proactive UX & Touch-Friendly Interactions:**
+   To fulfill the "touch-friendly" requirement, I strictly avoided hidden `hover` states for critical actions.
+   - **Immediate Edit Mode:** When a user dynamically inserts an "Information Note", it immediately enters an editable state without requiring secondary clicks (no double-click anti-patterns).
+   - **Chronological Logic:** Insert buttons are mathematically constrained to only appear _between official steps_, preventing UI clutter from consecutive custom nodes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Dynamic State Mutations (Zustand):** I utilized Zustand to handle the "Dynamic Node Management" requirement (Insert & Remove). The global store handles complex array mutations (inserting custom notes at specific indexes and deleting them) without prop-drilling, ensuring UI reactivity remains intact.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **The "3-Second Rule" Layout:**
+   The dashboard answers the user's core questions instantly. The header prominently displays `Current Status` and `Estimated Remaining Time`. If an action is required (e.g., missing documents in the Deduction Reason node), a red alert banner immediately directs the user's attention. The layout is mobile-first (stacked) and shifts to a grid on desktop to preserve hierarchy.
 
-## Learn More
+## Future Improvements (Post-Deadline)
 
-To learn more about Next.js, take a look at the following resources:
+- **Real LLM Integration:** Connect the simulated `Explain with AI` and `Document Analyzer` delays to real serverless edge functions pointing to OpenAI or Claude APIs for structured JSON responses.
+- **Framer Motion Transitions:** Add smooth enter/exit animations for dynamically inserted/removed nodes to improve the perceptual performance.
+- **Persistent Storage:** Implement Zustand's `persist` middleware to save timeline mutations to `localStorage` or sync them back to a backend database.
+- **Test Coverage:** Implement unit tests for the `NodeRegistry` resolution logic and Zustand store mutations using Jest.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## AI Tools Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+As permitted, I utilized AI strategically as an architectural assistant:
 
-## Deploy on Vercel
+- **Boilerplate & Typings:** Accelerated the creation of Zod schemas and TypeScript interfaces from the raw JSON payload.
+- **Strict Implementation:** I explicitly directed the AI to follow the Component Registry pattern and restricted it from using standard `if/else` rendering or adding code comments, ensuring a clean, self-documenting codebase.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Installation & Setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ebrarhosgul/AI-Powered-Claim-Orchestrator
+   cd ai-powered-claim-orchestrator
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Run the application:**
+   ```bash
+   npm run dev
+   ```
+4. **Access the application:**
+   Open http://localhost:3000 in your browser.
