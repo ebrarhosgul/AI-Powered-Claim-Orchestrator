@@ -5,6 +5,7 @@ export const BaseNodeSchema = z.object({
   status: z.enum(["Pending", "In Progress", "Completed", "Failed", "Cancelled"]),
   timestamp: z.iso.datetime(),
   explanation: z.string().optional(),
+  actionRequired: z.boolean().optional(),
 });
 
 export const TowingServiceSchema = BaseNodeSchema.extend({
