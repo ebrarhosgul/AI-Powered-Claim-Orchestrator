@@ -32,7 +32,7 @@ export function AppraisalNodeComponent({ node }: AppraisalNodeProps) {
 
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-semibold text-lg">{node.title}</h3>
-        <Button size="sm" variant="secondary" onClick={handleExplain} disabled={isLoading} className="gap-2 shrink-0">
+        <Button size="sm" variant="secondary" onClick={handleExplain} disabled={isLoading} className="gap-2 shrink-0 cursor-pointer">
            {isLoading ? <Loader2 className="animate-spin h-4 w-4" /> : <Sparkles className="h-4 w-4 text-purple-500" />}
            Explain with AI
         </Button>

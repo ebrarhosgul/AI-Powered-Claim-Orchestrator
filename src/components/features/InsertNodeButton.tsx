@@ -21,10 +21,10 @@ export function InsertNodeButton({ index }: InsertNodeButtonProps) {
   };
 
   return (
-    <div className="flex justify-center -my-2 opacity-0 hover:opacity-100 transition-opacity z-10 relative">
+    <div className="flex justify-center -my-2 hover:my-1 opacity-0 hover:opacity-100 transition-all duration-200 z-10 relative">
       <button 
         onClick={handleAddNote}
-        className="bg-background border border-border rounded-full p-1 shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground text-muted-foreground flex items-center gap-1 text-xs pr-3"
+        className="bg-background border border-border rounded-full p-1 shadow-sm hover:shadow-md hover:bg-accent hover:text-accent-foreground text-muted-foreground flex items-center gap-1 text-xs pr-3 cursor-pointer"
       >
         <PlusCircle className="h-5 w-5" />
         Add Note
